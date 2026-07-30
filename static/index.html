@@ -32,13 +32,29 @@
     display: flex;
     flex-direction: column;
   }
+  
+  .brand-note {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--espresso-soft);
+  opacity: 0.5;
+}
 
-  header {
-    padding: 28px 20px 18px;
+ header {
+    padding: 34px 20px 22px;
     text-align: center;
     border-bottom: 1px solid var(--line);
-    background: var(--paper);
-  }
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(255,252,247,1),
+        rgba(246,240,230,0.8)
+      );
+}
 
   header .mark {
     display: inline-flex;
@@ -57,10 +73,10 @@
   h1 {
     font-family: 'Fraunces', serif;
     font-weight: 600;
-    font-size: 22px;
+    font-size: 24px;
     margin: 0;
-    letter-spacing: -0.01em;
-  }
+    letter-spacing: -0.02em;
+}
 
   .subtitle {
     font-size: 13px;
@@ -206,12 +222,25 @@
   ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
 </style>
 </head>
+
+<div class="brand-note">
+  Powered by ONSU production knowledge base
+</div>
+
 <body>
 
 <header>
-  <div class="mark">O</div>
+  <div class="logo-wrap">
+    <img src="/assets/onsu-logo.png" alt="ONSU" class="logo">
+  </div>
+
   <h1>ONSU Kitchen Assistant</h1>
-  <div class="subtitle">Recipes · Costings · SOPs &nbsp;·&nbsp; <span class="zh">廚房助手</span></div>
+
+  <div class="subtitle">
+    Internal Production Intelligence
+    <br>
+    <span>Recipes · Costings · SOPs · Troubleshooting</span>
+  </div>
 </header>
 
 <main id="messages">
@@ -236,7 +265,7 @@
 </form>
 
 <script>
-  const API_KEY = "mignon"; // if your server sets ONSU_PASSCODE, put the same value here before deploying
+  const API_KEY = ""; // if your server sets ONSU_PASSCODE, put the same value here before deploying
   const messagesEl = document.getElementById("messages");
   const inputEl = document.getElementById("input");
   const sendBtn = document.getElementById("sendBtn");
