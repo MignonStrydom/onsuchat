@@ -214,13 +214,28 @@
     flex-shrink: 0;
     transition: background 0.15s, transform 0.1s;
   }
+  
+  	.logo-wrap {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 14px;
+}
+
+	.logo {
+		width: 90px;
+		height: auto;
+		object-fit: contain;
+}
+
   button:hover { background: var(--flocage-pink-deep); }
   button:active { transform: scale(0.94); }
   button:disabled { opacity: 0.4; cursor: not-allowed; }
 
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+  
 </style>
+
 </head>
 
 <body>
