@@ -10,7 +10,7 @@ __pycache__/
 env.local.txt
 env.production.txt
 env.example.txt
-
+corpus
 
 # Optional local files
 .venv/
