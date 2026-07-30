@@ -8,13 +8,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #F6F0E6;
-    --paper: #FFFCF7;
-    --espresso: #362A24;
+    --cream: #F7F1E7;
+    --paper: #FFFDF8;
+    --espresso: #302622;
     --espresso-soft: #6B5A4F;
+    --rose: #D9A0A7;
     --flocage-pink: #E6A4B4;
     --flocage-pink-deep: #C97A8F;
-    --matcha: #7A8B6F;
+    --matcha: #8A9270;
+    --gold: #B79A6B;
     --line: #E4D9C8;
   }
 
@@ -45,7 +47,7 @@
 }
 
  header {
-    padding: 34px 20px 22px;
+    padding: 25px 20px 22px;
     text-align: center;
     border-bottom: 1px solid var(--line);
     background:
@@ -60,7 +62,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px; height: 40px;
+    width: 40px; height: 30px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--flocage-pink), var(--flocage-pink-deep));
     color: white;
@@ -140,7 +142,7 @@
 
   .empty-state {
     text-align: center;
-    padding: 60px 20px 20px;
+    padding: 25px 20px 20px;
     color: var(--espresso-soft);
   }
 
@@ -218,11 +220,12 @@
   	.logo-wrap {
 		display: flex;
 		justify-content: center;
-		margin-bottom: 14px;
+		margin-bottom: 6px;
 }
 
 	.logo {
-		width: 90px;
+		width: 220px;
+		max-width: 75vw;
 		height: auto;
 		object-fit: contain;
 }
@@ -249,11 +252,10 @@
     <img src="/assets/onsu-logo.png" alt="ONSU" class="logo">
   </div>
 
-  <h1>ONSU Kitchen Assistant</h1>
-
+  <h1>Production Assistant</h1>
+	<br>
   <div class="subtitle">
-    Internal Production Intelligence
-    <br>
+
     <span>Recipes · Costings · SOPs · Troubleshooting</span>
   </div>
 </header>
@@ -261,11 +263,11 @@
 <main id="messages">
   <div class="empty-state" id="emptyState">
     <div class="icon">🍮</div>
-    <p>Ask about a recipe, cost, allergen, or SOP.</p>
-    <div style="margin-top: 14px;">
-      <span class="hint" onclick="ask(this)">What temperature for the pink flocage?</span>
-      <span class="hint" onclick="ask(this)">Allergens in the Basque Cheesecake?</span>
-      <span class="hint" onclick="ask(this)">Why is my jelly cloudy?</span>
+    <p>What do you need help with today?</p>
+    <div style="margin-top: 16px;">
+      <span class="hint" onclick="ask(this)">Baking Temp for Egg tarts?</span>
+      <span class="hint" onclick="ask(this)">How do I make Strawberry Cheesecake?</span>
+      <span class="hint" onclick="ask(this)">Allergens in Hojicha bun?</span>
     </div>
   </div>
 </main>
@@ -307,7 +309,7 @@
     if (role === "bot") {
       const label = document.createElement("div");
       label.className = "label";
-      label.textContent = "ONSU Assistant";
+      label.textContent = "ONSU Chat";
       wrap.appendChild(label);
     }
     bubble.textContent = text;
