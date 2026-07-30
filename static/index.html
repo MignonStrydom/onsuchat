@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ONSU Kitchen Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F6F0E6;
+    --paper: #FFFCF7;
+    --espresso: #362A24;
+    --espresso-soft: #6B5A4F;
+    --flocage-pink: #E6A4B4;
+    --flocage-pink-deep: #C97A8F;
+    --matcha: #7A8B6F;
+    --line: #E4D9C8;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--cream);
+    background-image:
+      radial-gradient(circle at 15% 8%, rgba(230,164,180,0.16), transparent 40%),
+      radial-gradient(circle at 85% 92%, rgba(122,139,111,0.12), transparent 40%);
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--espresso);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    padding: 28px 20px 18px;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+  }
+
+  header .mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--flocage-pink), var(--flocage-pink-deep));
+    color: white;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 22px;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--espresso-soft);
+    margin-top: 4px;
+  }
+
+  .subtitle .zh { font-size: 12px; opacity: 0.75; }
+
+  main {
+    flex: 1;
+    max-width: 720px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 24px 16px 140px;
+    overflow-y: auto;
+  }
+
+  .msg {
+    display: flex;
+    margin-bottom: 16px;
+    animation: rise 0.25s ease-out;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .msg.user { justify-content: flex-end; }
+
+  .bubble {
+    max-width: 82%;
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: 15px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+  }
+
+  .msg.user .bubble {
+    background: var(--espresso);
+    color: var(--paper);
+    border-bottom-right-radius: 4px;
+  }
+
+  .msg.bot .bubble {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-bottom-left-radius: 4px;
+  }
+
+  .msg.bot .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--matcha);
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px 20px;
+    color: var(--espresso-soft);
+  }
+
+  .empty-state .icon { font-size: 32px; margin-bottom: 10px; }
+  .empty-state p { font-size: 14px; margin: 4px 0; }
+  .empty-state .hint {
+    display: inline-block;
+    margin: 4px 6px;
+    padding: 6px 12px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .empty-state .hint:hover { background: var(--cream); }
+
+  .typing { display: inline-flex; gap: 4px; padding: 4px 0; }
+  .typing span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--flocage-pink-deep);
+    animation: bounce 1.2s infinite ease-in-out;
+  }
+  .typing span:nth-child(2) { animation-delay: 0.15s; }
+  .typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-4px); opacity: 1; } }
+
+  form {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, var(--cream) 60%, transparent);
+    padding: 20px 16px 24px;
+  }
+
+  .input-row {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    gap: 8px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 6px 6px 6px 16px;
+    box-shadow: 0 4px 16px rgba(54,42,36,0.08);
+  }
+
+  textarea {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 15px;
+    resize: none;
+    padding: 10px 0;
+    max-height: 100px;
+    color: var(--espresso);
+  }
+
+  button {
+    border: none;
+    background: var(--espresso);
+    color: var(--paper);
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s, transform 0.1s;
+  }
+  button:hover { background: var(--flocage-pink-deep); }
+  button:active { transform: scale(0.94); }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="mark">O</div>
+  <h1>ONSU Kitchen Assistant</h1>
+  <div class="subtitle">Recipes · Costings · SOPs &nbsp;·&nbsp; <span class="zh">廚房助手</span></div>
+</header>
+
+<main id="messages">
+  <div class="empty-state" id="emptyState">
+    <div class="icon">🍮</div>
+    <p>Ask about a recipe, cost, allergen, or SOP.</p>
+    <div style="margin-top: 14px;">
+      <span class="hint" onclick="ask(this)">What temperature for the pink flocage?</span>
+      <span class="hint" onclick="ask(this)">Allergens in the Basque Cheesecake?</span>
+      <span class="hint" onclick="ask(this)">Why is my jelly cloudy?</span>
+    </div>
+  </div>
+</main>
+
+<form id="chatForm" onsubmit="return false;">
+  <div class="input-row">
+    <textarea id="input" rows="1" placeholder="Ask a question…" onkeydown="handleKey(event)"></textarea>
+    <button id="sendBtn" onclick="send()" aria-label="Send">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </button>
+  </div>
+</form>
+
+<script>
+  const API_KEY = "mignon"; // if your server sets ONSU_PASSCODE, put the same value here before deploying
+  const messagesEl = document.getElementById("messages");
+  const inputEl = document.getElementById("input");
+  const sendBtn = document.getElementById("sendBtn");
+  const emptyState = document.getElementById("emptyState");
+
+  function handleKey(e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      send();
+    }
+  }
+
+  function ask(el) {
+    inputEl.value = el.textContent;
+    send();
+  }
+
+  function addMessage(role, text) {
+    if (emptyState) emptyState.remove();
+    const wrap = document.createElement("div");
+    wrap.className = "msg " + role;
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    if (role === "bot") {
+      const label = document.createElement("div");
+      label.className = "label";
+      label.textContent = "ONSU Assistant";
+      wrap.appendChild(label);
+    }
+    bubble.textContent = text;
+    wrap.appendChild(bubble);
+    messagesEl.appendChild(wrap);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return bubble;
+  }
+
+  function addTyping() {
+    const wrap = document.createElement("div");
+    wrap.className = "msg bot";
+    wrap.id = "typingIndicator";
+    wrap.innerHTML = '<div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div>';
+    messagesEl.appendChild(wrap);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function removeTyping() {
+    const el = document.getElementById("typingIndicator");
+    if (el) el.remove();
+  }
+
+  async function send() {
+    const msg = inputEl.value.trim();
+    if (!msg) return;
+    inputEl.value = "";
+    inputEl.style.height = "auto";
+    sendBtn.disabled = true;
+    addMessage("user", msg);
+    addTyping();
+
+    try {
+      const res = await fetch("/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(API_KEY ? {"x-api-key": API_KEY} : {})
+        },
+        body: JSON.stringify({ message: msg })
+      });
+      const data = await res.json();
+      removeTyping();
+      if (!res.ok) {
+        addMessage("bot", "Error: " + (data.detail || "something went wrong."));
+      } else {
+        addMessage("bot", data.answer);
+      }
+    } catch (err) {
+      removeTyping();
+      addMessage("bot", "Couldn't reach the server — check your connection.");
+    }
+    sendBtn.disabled = false;
+    inputEl.focus();
+  }
+
+  inputEl.addEventListener("input", () => {
+    inputEl.style.height = "auto";
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + "px";
+  });
+</script>
+
+</body>
+</html>

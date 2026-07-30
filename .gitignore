@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# Secrets
+.env
+env.local.txt
+env.production.txt
+env.example.txt
+
+
+# Optional local files
+.venv/
+venv/
